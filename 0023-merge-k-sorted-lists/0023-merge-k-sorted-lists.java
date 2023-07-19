@@ -10,53 +10,30 @@
  */
 class Solution {
     public ListNode mergeKLists(ListNode[] lists) {
+        if (lists.length==0) return null;
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
         
-       if(lists== null || lists.length ==0)
-           return null;
-        return mergeKListshelp(lists, 0, lists.length-1);
-        
-        
-    }
-    private ListNode mergeKListshelp(ListNode[] list, int s, int e)
-    {
-
-        if(s==e) return list[s];
-        if(s == (e-1)) return mergetwoLists(list[s], list[e]);
-        int n = s+ (e-s)/2;
-        ListNode p, q;
-        p= mergeKListshelp(list, s ,n);
-        q = mergeKListshelp(list, n+1, e);
-        return mergetwoLists(p,q);
-        
-    }
-    private ListNode mergetwoLists(ListNode p, ListNode q)
-    {
-        
-        ListNode dummy = new ListNode(-1);
-        ListNode k = dummy;
-        while(p!=null && q!=null)
+        for(ListNode list: lists)
         {
-            if(p.val<q.val)
+            while(list!=null)
             {
-                k.next= p;
-                p=p.next;
+                pq.add(list.val); 
+                list= list.next;
             }
-            else
-            {
-                k.next = q;
-                q=q.next;
-            }
-            k = k.next;
+           
+        }
+        
+        if(pq.isEmpty()) return null;
+        ListNode head = new ListNode(pq.poll());
+        ListNode temp = head;
+        while(!pq.isEmpty())
+        {
+            temp.next = new ListNode(pq.poll());
+            temp = temp.next;
             
         }
-        if(p!=null)
-        {
-            k.next =p;
-        }
-        if (q!=null)
-        {
-            k.next = q;
-        }
-        return dummy.next;
+        temp.next =null;
+        return head;
+        
     }
 }
