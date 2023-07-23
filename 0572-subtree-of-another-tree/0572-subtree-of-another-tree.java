@@ -17,13 +17,18 @@ class Solution {
     public boolean isSubtree(TreeNode root, TreeNode subRoot) {
         if (root==null || subRoot == null) return root==subRoot;
        
-        boolean p = isSubtree(root.left, subRoot);
-        boolean q= isSubtree(root.right, subRoot);
+       
         boolean c = false;
         if (root.val==subRoot.val)
         {
-             c = helper(root, subRoot);
+            c = helper(root, subRoot);
+            if (c) return true;
+            
+            
+            
         }
+        boolean p = isSubtree(root.left, subRoot);
+        boolean q= isSubtree(root.right, subRoot);
         return p || q || c;
         
     }
